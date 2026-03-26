@@ -37,7 +37,7 @@ export default function MePage() {
           {/* Hero Section */}
           <FadeIn delay={0}>
             <section className="mb-12">
-              <h1 className="text-5xl font-bold mb-8 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+              <h1 className="text-5xl font-bold mb-8 text-foreground">
                 Hi there!
               </h1>
             </section>
