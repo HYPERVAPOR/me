@@ -1,26 +1,141 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Base Colors - Force Dark Theme */
+  --background: #050505;
+  --foreground: #ededed;
+
+  /* Accent Colors */
+  --accent-primary: #ff6b6b;
+  --accent-secondary: #ff8787;
+  --accent-glow: rgba(255, 107, 107, 0.15);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 20px;
+
+  /* Spacing */
+  --section-spacing: 8rem;
+  --card-gap: 2rem;
+
+  /* Animation */
+  --transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-secondary: var(--accent-secondary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Ambient Glow Background */
+.ambient-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255, 107, 107, 0.15), transparent),
+    radial-gradient(ellipse 60% 40% at 80% 50%, rgba(255, 107, 107, 0.1), transparent),
+    radial-gradient(ellipse 50% 30% at 20% 80%, rgba(139, 92, 246, 0.08), transparent);
+}
+
+/* Glass Card Effect */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  transition: all var(--transition-slow);
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Simple Solid Navbar */
+.navbar-glass {
+  background: #050505;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Hover Lift Animation */
+.hover-lift {
+  transition: transform var(--transition-slow);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Copy Toast Animation */
+@keyframes copy-toast {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.animate-copy-toast {
+  animation: copy-toast 0.2s ease-out forwards;
+}
+
+/* Copy Toast Float Up & Fade Animation */
+@keyframes copy-toast-float {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, -15px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -40px);
+  }
+}
+
+.animate-copy-toast-float {
+  animation: copy-toast-float 0.6s ease-out forwards;
+}
+
+/* Subtle Copy Toast Animation */
+@keyframes copy-toast-subtle {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 4px);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -4px);
+  }
+}
+
+.animate-copy-toast-subtle {
+  animation: copy-toast-subtle 1.2s ease-out forwards;
 }
