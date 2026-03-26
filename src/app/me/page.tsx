@@ -49,7 +49,7 @@ export default function MePage() {
               <h2 className="text-2xl font-semibold text-foreground mb-6">About me</h2>
               <div className="text-base text-foreground/80 max-w-2xl space-y-2">
                 <p>
-                  I'm Zhening Liu, a <span className="text-[var(--accent-primary)]">full-stack developer</span> passionate about building elegant web applications.
+                  I&apos;m Zhening Liu, a <span className="text-[var(--accent-primary)]">full-stack developer</span> passionate about building elegant web applications.
                 </p>
                 <p>
                   Postgraduate in Computer Science at <InlineLinkCard href="https://en.swjtu.edu.cn/" icon={<GraduationCap className="w-4 h-4" />}>SWJTU</InlineLinkCard>.
