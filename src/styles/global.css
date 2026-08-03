@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/*
+ * DESIGN.md -> Tailwind v4 theme mapping.
+ * Source of truth: DESIGN.md (Dark Minimal Terminal).
+ */
+@theme {
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular,
+    Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Colors */
+  --color-canvas: #0b0b0c;
+  --color-surface-soft: #121214;
+  --color-ink: #e8e6e3;
+  --color-body: #a8a8ad;
+  --color-mute: #7c7c82;
+  --color-ash: #56565c;
+  --color-hairline: rgba(255, 255, 255, 0.1);
+  --color-hairline-strong: rgba(255, 255, 255, 0.22);
+  --color-accent: #7ee787;
+  --color-accent-hover: #a4f0ba;
+
+  /* Typography */
+  --text-display-xl: 64px;
+  --text-display-xl--line-height: 1.05;
+  --text-display-xl--letter-spacing: -0.02em;
+  --text-caption-sm: 13px;
+  --text-caption-sm--line-height: 1.5;
+
+  /* Spacing (base unit 8px) */
+  --spacing-xxs: 1px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-section: 96px;
+
+  /* Radius */
+  --radius-none: 0px;
+  --radius-sm: 4px;
+  --radius-full: 9999px;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    font-family: var(--font-mono);
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-canvas);
+  }
+}
+
+@layer components {
+  .icon-button {
+    @apply inline-flex h-11 w-11 items-center justify-center rounded-sm border border-hairline-strong bg-canvas text-mute transition-colors duration-150 hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+  }
+
+  .link-accent {
+    @apply text-accent underline-offset-8 transition-colors duration-150 hover:text-accent-hover hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent;
+  }
+
+  /* Background: terminal grid */
+  .grid-lines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+
+}
