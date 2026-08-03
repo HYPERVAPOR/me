@@ -2,7 +2,7 @@ export const SITE = {
   name: 'HYPERVAPOR',
   title: "HYPERVAPOR's Page",
   description: 'Now building Riffpad.ai.',
-  // TODO: confirm the canonical domain before deploying (guessed from the email domain).
+  // Canonical domain, bound to this site on Vercel.
   url: 'https://hypervapor.org',
   locale: 'en_US',
   themeColor: '#0b0b0c',
