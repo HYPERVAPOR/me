@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/bro",
+      "destination": "https://bro-tawny.vercel.app/bro"
+    },
+    {
+      "source": "/bro/:path*",
+      "destination": "https://bro-tawny.vercel.app/bro/:path*"
+    }
+  ]
+}
