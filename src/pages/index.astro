@@ -1,9 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const bioLead = 'Now building';
-const projectName = 'Riffpad.ai';
-const siteUrl = 'https://riffpad.ai';
 const contacts = [
   {
     label: 'GitHub',
@@ -26,49 +23,233 @@ const contacts = [
     icon: 'discord',
   },
 ];
+
+const projects = [
+  {
+    name: 'riffpad.ai',
+    href: 'https://riffpad.ai',
+    status: 'live',
+    badge: 'badge-live',
+    meta: 'web · audio',
+  },
+  {
+    name: 'herdr-pair-coding',
+    href: 'https://github.com/HYPERVAPOR/herdr-pair-coding',
+    status: 'new',
+    badge: 'badge-new',
+    meta: 'python · agents',
+  },
+];
+
+const featured = {
+  name: 'herdr-pair-coding',
+  href: 'https://github.com/HYPERVAPOR/herdr-pair-coding',
+  tagline: 'Worker–reviewer pair coding on herdr.',
+  description:
+    'One agent writes. Another reviews. A watchdog keeps the pair moving — so the work never stalls on a silent pane.',
+  topics: ['agent-orchestration', 'multi-agent', 'herdr', 'terminal', 'pi'],
+  clone: 'git clone git@github.com:HYPERVAPOR/herdr-pair-coding.git',
+};
 ---
 
 <BaseLayout>
-  <main class="flex min-h-dvh items-center justify-center px-6 sm:items-end sm:justify-start sm:px-10 sm:pb-14">
-    <div class="w-full max-w-4xl text-center sm:text-left">
-      <p class="text-caption-sm text-mute">$ whoami</p>
-      <h1
-        class="mt-6 text-balance text-[clamp(2.75rem,9vw,6rem)] font-bold leading-[1.05] tracking-tight text-ink"
-      >
-        {bioLead}{' '}
-        <a href={siteUrl} class="link-accent">{projectName}</a>
-      </h1>
-      <nav
-        class="mt-12 flex flex-nowrap items-center justify-center gap-x-4 sm:justify-start sm:gap-x-6"
-        aria-label="Contact"
-      >
-        {
-          contacts.map(({ label, href, icon }) => (
-            <a class="icon-button" href={href} aria-label={label}>
+  <main class="relative z-10 flex min-h-dvh items-center justify-center p-0 sm:p-6 lg:p-10">
+    <div class="tui-frame">
+      <!-- window chrome -->
+      <header class="tui-chrome">
+        <nav class="tui-tabs" aria-label="Panes">
+          <a class="tui-tab" href="#whoami" aria-current="true">01:whoami</a>
+          <a class="tui-tab" href="#projects">02:projects</a>
+        </nav>
+        <span class="tui-chrome-meta" aria-hidden="true">hypervapor.org — zsh — 96×24</span>
+      </header>
+
+      <div class="tui-grid">
+        <!-- ── pane 01 ───────────────────────────────── -->
+        <section id="whoami" class="tui-pane flex flex-col">
+          <p class="prompt boot">
+            <span><span class="text-green">hypervapor</span><span class="text-overlay0">@</span><span class="text-green">localhost</span></span>
+            <span class="text-blue">~</span>
+            <span class="text-accent">%</span>
+            <span class="prompt-cmd">whoami</span>
+          </p>
+
+          <h1
+            class="boot boot-1 mt-6 text-[clamp(2rem,6vw,3.5rem)] font-bold leading-[1.06] tracking-tight text-balance text-ink"
+          >
+            Now building <a href="https://riffpad.ai" class="link-accent">Riffpad.ai</a><span
+              class="cursor"
+              aria-hidden="true"></span>
+          </h1>
+
+          <p class="boot boot-2 mt-5 max-w-[26rem] text-caption-sm leading-relaxed text-subtext0">
+            <span class="text-ash">//</span> quiet tooling for loud problems. Built in the terminal, then
+            left to run without me.
+          </p>
+
+          <div class="boot boot-3 mt-auto pt-8">
+            <p class="prompt">
+              <span class="text-accent">%</span>
+              <span class="prompt-cmd">./contact --all</span>
+            </p>
+            <nav
+              class="mt-3 flex flex-nowrap items-center gap-x-2.5"
+              aria-label="Contact"
+            >
               {
-                icon === 'github' ? (
-                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
-                  </svg>
-                ) : icon === 'linkedin' ? (
-                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
-                  </svg>
-                ) : icon === 'mail' ? (
-                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <rect x="2" y="4" width="20" height="16" rx="2" />
-                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                  </svg>
-                ) : (
-                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                    <path d="M20.317 4.3698a19.7913 19.7913 0 0 0-4.8851-1.5152.0741.0741 0 0 0-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 0 0-.0785-.037 19.7363 19.7363 0 0 0-4.8852 1.515.0699.0699 0 0 0-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 0 0 .0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 0 0 .0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 0 0-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 0 1-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 0 1 .0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 0 1 .0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 0 1-.0066.1276 12.2986 12.2986 0 0 1-1.873.8914.0766.0766 0 0 0-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 0 0 .0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 0 0 .0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 0 0-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" />
-                  </svg>
-                )
+                contacts.map(({ label, href, icon }) => (
+                  <a class="icon-button" href={href} aria-label={label}>
+                    {
+                      icon === 'github' ? (
+                        <svg
+                          class="h-4 w-4"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                        </svg>
+                      ) : icon === 'linkedin' ? (
+                        <svg
+                          class="h-4 w-4"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
+                        </svg>
+                      ) : icon === 'mail' ? (
+                        <svg
+                          class="h-4 w-4"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <rect x="2" y="4" width="20" height="16" rx="1" />
+                          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                        </svg>
+                      ) : (
+                        <svg
+                          class="h-4 w-4"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path d="M20.317 4.3698a19.7913 19.7913 0 0 0-4.8851-1.5152.0741.0741 0 0 0-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 0 0-.0785-.037 19.7363 19.7363 0 0 0-4.8852 1.515.0699.0699 0 0 0-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 0 0 .0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 0 0 .0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 0 0-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 0 1-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 0 1 .0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 0 1 .0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 0 1-.0066.1276 12.2986 12.2986 0 0 1-1.873.8914.0766.0766 0 0 0-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 0 0 .0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 0 0 .0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 0 0-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" />
+                        </svg>
+                      )
+                    }
+                  </a>
+                ))
               }
-            </a>
-          ))
-        }
-      </nav>
+            </nav>
+          </div>
+        </section>
+
+        <!-- ── pane 02 ───────────────────────────────── -->
+        <section id="projects" class="tui-pane flex flex-col">
+          <p class="prompt boot">
+            <span class="text-accent">%</span>
+            <span class="prompt-cmd">ls -la ~/projects</span>
+          </p>
+
+          <ul class="boot boot-1 mt-4 space-y-1">
+            {
+              projects.map(({ name, href, status, badge, meta }) => (
+                <li class="project-row">
+                  <span class="flex min-w-0 items-baseline gap-2 truncate">
+                    <a href={href} class="project-name truncate">
+                      {name}
+                    </a>
+                    <span class="hidden text-tui-xs text-ash sm:inline">{meta}</span>
+                  </span>
+                  <span class={`badge ${badge}`}>{status}</span>
+                </li>
+              ))
+            }
+          </ul>
+
+          <div class="tui-block boot boot-2">
+            <span class="tui-block-label"> <span class="text-peach">◆</span> {featured.name} </span>
+
+            <p class="text-caption-sm text-subtext0">{featured.tagline}</p>
+            <p class="mt-2 text-tui-xs leading-relaxed text-subtext0">{featured.description}</p>
+
+            <ul class="mt-3 flex flex-wrap gap-1.5" aria-label="Topics">
+              {
+                featured.topics.map((topic) => (
+                  <li class="border border-surface1 px-1.5 py-px text-tui-xs text-overlay2">
+                    #{topic}
+                  </li>
+                ))
+              }
+            </ul>
+
+            <p class="clone-line mt-4">
+              <span class="text-ash" aria-hidden="true">$</span>
+              <span class="min-w-0 truncate">{featured.clone}</span>
+            </p>
+
+            <div class="mt-3 flex flex-wrap items-center gap-2">
+              <a class="cta" href={featured.href} data-featured>
+                <span aria-hidden="true">⏎</span>
+                <span>open repo</span>
+              </a>
+              <a class="cta-ghost" href={featured.href} aria-label="Read the README">cat README.md</a>
+            </div>
+          </div>
+
+          <p class="boot boot-3 mt-auto pt-6 text-tui-xs text-ash">
+            <span class="text-overlay1">next</span>
+            <span class="mx-2 inline-block h-3 w-24 translate-y-[0.1em] bg-surface1" aria-hidden="true"
+            ></span>
+            <span>— sealed until it works</span>
+          </p>
+        </section>
+      </div>
+
+      <!-- statusline -->
+      <footer class="tui-statusline" aria-hidden="true">
+        <div class="flex items-stretch">
+          <span class="tui-seg tui-seg-mode">normal</span>
+          <span class="tui-seg hidden sm:inline-flex">hypervapor@localhost</span>
+          <span class="tui-seg tui-seg-accent">⎇ main</span>
+          <span class="tui-seg hidden sm:inline-flex">utf-8</span>
+        </div>
+        <div class="flex items-stretch">
+          <span class="tui-seg hidden sm:inline-flex">ln 1, col 1</span>
+          <span class="tui-seg">⏎ featured</span>
+          <span class="tui-seg" id="clock">00:00 UTC</span>
+        </div>
+      </footer>
     </div>
   </main>
+
+  <script define:vars={{ featuredUrl: featured.href }}>
+    const clock = document.getElementById('clock');
+
+    const tick = () => {
+      if (!clock) return;
+      const now = new Date();
+      const time = now.toISOString().slice(11, 16);
+      clock.textContent = `${time} UTC`;
+    };
+    tick();
+    setInterval(tick, 1000);
+
+    // Enter opens the featured repo, unless focus is on something interactive.
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter') return;
+      if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
+      const target = event.target;
+      if (target instanceof Element && target.closest('a, button, input, textarea, select, [contenteditable]')) {
+        return;
+      }
+      window.location.href = featuredUrl;
+    });
+  </script>
 </BaseLayout>

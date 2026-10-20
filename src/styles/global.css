@@ -2,23 +2,43 @@
 
 /*
  * DESIGN.md -> Tailwind v4 theme mapping.
- * Source of truth: DESIGN.md (Dark Minimal Terminal).
+ * Source of truth: DESIGN.md (Mocha TUI, Catppuccin Mocha palette).
  */
 @theme {
   --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular,
     Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-  /* Colors */
-  --color-canvas: #0b0b0c;
-  --color-surface-soft: #121214;
-  --color-ink: #e8e6e3;
-  --color-body: #a8a8ad;
-  --color-mute: #7c7c82;
-  --color-ash: #56565c;
-  --color-hairline: rgba(255, 255, 255, 0.1);
-  --color-hairline-strong: rgba(255, 255, 255, 0.22);
-  --color-accent: #7ee787;
-  --color-accent-hover: #a4f0ba;
+  /* Catppuccin Mocha — neutrals */
+  --color-crust: #11111b;
+  --color-mantle: #181825;
+  --color-canvas: #1e1e2e; /* mocha base */
+  --color-surface0: #313244;
+  --color-surface1: #45475a;
+  --color-surface2: #585b70;
+  --color-overlay0: #6c7086;
+  --color-overlay1: #7f849c;
+  --color-overlay2: #9399b2;
+  --color-subtext0: #a6adc8;
+
+  /* Text ramp */
+  --color-ink: #cdd6f4; /* mocha text */
+  --color-body: #a6adc8; /* subtext0 */
+  --color-mute: #7f849c; /* overlay1 */
+  --color-ash: #6c7086; /* overlay0 */
+
+  /* Accents */
+  --color-accent: #cba6f7; /* mauve — primary */
+  --color-accent-hover: #f5c2e7; /* pink */
+  --color-green: #a6e3a1;
+  --color-teal: #94e2d5;
+  --color-blue: #89b4fa;
+  --color-peach: #fab387;
+  --color-yellow: #f9e2af;
+  --color-red: #f38ba8;
+
+  /* Rules */
+  --color-hairline: rgba(205, 214, 244, 0.1);
+  --color-hairline-strong: rgba(205, 214, 244, 0.22);
 
   /* Typography */
   --text-display-xl: 64px;
@@ -26,6 +46,9 @@
   --text-display-xl--letter-spacing: -0.02em;
   --text-caption-sm: 13px;
   --text-caption-sm--line-height: 1.5;
+  --text-tui-xs: 11px;
+  --text-tui-xs--line-height: 1.4;
+  --text-tui-xs--letter-spacing: 0.02em;
 
   /* Spacing (base unit 8px) */
   --spacing-xxs: 1px;
@@ -37,9 +60,9 @@
   --spacing-xxl: 32px;
   --spacing-section: 96px;
 
-  /* Radius */
+  /* Radius — TUI corners stay sharp */
   --radius-none: 0px;
-  --radius-sm: 4px;
+  --radius-sm: 2px;
   --radius-full: 9999px;
 }
 
@@ -50,38 +73,256 @@
 
   html {
     font-family: var(--font-mono);
+    scroll-behavior: smooth;
   }
 
   body {
-    background-color: var(--color-canvas);
+    background-color: var(--color-crust);
     color: var(--color-body);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   ::selection {
     background-color: var(--color-accent);
-    color: var(--color-canvas);
+    color: var(--color-crust);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
   }
 }
 
 @layer components {
-  .icon-button {
-    @apply inline-flex h-11 w-11 items-center justify-center rounded-sm border border-hairline-strong bg-canvas text-mute transition-colors duration-150 hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+  /* ---------- Shell ---------- */
+
+  .tui-frame {
+    @apply relative flex w-full max-w-5xl flex-col overflow-hidden border border-surface1 bg-canvas;
+    box-shadow:
+      0 0 0 1px var(--color-crust),
+      0 40px 120px -40px rgba(0, 0, 0, 0.9);
+  }
+
+  /* Top chrome: tabs + window meta */
+  .tui-chrome {
+    @apply flex items-center justify-between gap-4 border-b border-surface1 bg-mantle px-3 py-1.5;
+  }
+
+  .tui-tabs {
+    @apply flex items-center gap-1;
+  }
+
+  .tui-tab {
+    @apply inline-flex items-center gap-1.5 rounded-sm px-2 py-1 text-tui-xs uppercase tracking-[0.08em] text-overlay1 transition-colors duration-150 hover:bg-surface0 hover:text-ink;
+  }
+
+  .tui-tab[aria-current='true'] {
+    @apply bg-surface0 text-ink;
+  }
+
+  .tui-tab[aria-current='true']::before {
+    content: '';
+    @apply inline-block h-1.5 w-1.5 rounded-full bg-accent;
+  }
+
+  .tui-chrome-meta {
+    @apply hidden text-tui-xs text-ash sm:inline;
+  }
+
+  /* ---------- Body grid ---------- */
+
+  .tui-grid {
+    @apply grid grid-cols-1 lg:grid-cols-[1.05fr_1fr];
+  }
+
+  .tui-pane {
+    @apply relative min-w-0 px-5 py-6 sm:px-7 sm:py-8;
+  }
+
+  .tui-pane + .tui-pane {
+    border-top: 1px solid var(--color-surface1);
+  }
+
+  @media (min-width: 1024px) {
+    .tui-pane + .tui-pane {
+      border-top: 0;
+      border-left: 1px solid var(--color-surface1);
+    }
+  }
+
+  /* ---------- Terminal text ---------- */
+
+  .prompt {
+    @apply flex flex-wrap items-baseline gap-x-2 text-tui-xs text-overlay1 sm:text-caption-sm;
+  }
+
+  .prompt-cmd {
+    @apply text-ink;
+  }
+
+  .cursor {
+    @apply ml-2 inline-block h-[0.85em] w-[0.5em] translate-y-[0.06em] bg-accent;
+    animation: blink 1.1s steps(1, end) infinite;
   }
 
   .link-accent {
-    @apply text-accent underline-offset-8 transition-colors duration-150 hover:text-accent-hover hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent;
+    @apply text-accent underline decoration-accent/40 underline-offset-[6px] transition-colors duration-150 hover:text-accent-hover hover:decoration-accent-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent;
   }
 
-  /* Background: terminal grid */
+  .meta-note {
+    @apply text-tui-xs text-ash;
+  }
+
+  /* ---------- Project list ---------- */
+
+  .project-row {
+    @apply grid min-w-0 grid-cols-[1fr_auto] items-baseline gap-x-3 gap-y-1 border-l border-transparent py-1 pl-2 text-caption-sm transition-colors duration-150 hover:border-accent/60 hover:bg-surface0/40;
+  }
+
+  .project-name {
+    @apply text-ink transition-colors duration-150 hover:text-accent-hover;
+  }
+
+  .badge {
+    @apply inline-flex items-center border px-1.5 py-px text-tui-xs uppercase tracking-[0.08em];
+  }
+
+  .badge-live {
+    @apply border-green/40 text-green;
+  }
+
+  .badge-new {
+    @apply border-peach/50 text-peach;
+  }
+
+  .badge-dim {
+    @apply border-surface1 text-ash;
+  }
+
+  /* ---------- Bordered block with an overlapping label ---------- */
+
+  .tui-block {
+    @apply relative mt-6 border border-surface1 px-4 pt-5 pb-4;
+  }
+
+  .tui-block-label {
+    @apply absolute -top-[0.85em] left-3 bg-canvas px-2 text-tui-xs uppercase tracking-[0.1em] text-overlay1;
+  }
+
+  /* ---------- CTA ---------- */
+
+  .cta {
+    @apply inline-flex items-center gap-2 bg-accent px-3 py-2 text-tui-xs font-bold uppercase tracking-[0.12em] text-crust transition-colors duration-150 hover:bg-green hover:text-crust focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+  }
+
+  .cta-ghost {
+    @apply inline-flex items-center gap-2 border border-surface1 px-3 py-2 text-tui-xs uppercase tracking-[0.12em] text-mute transition-colors duration-150 hover:border-accent hover:text-accent;
+  }
+
+  .clone-line {
+    @apply flex items-center gap-2 border border-surface1 bg-mantle px-2 py-1.5 text-tui-xs text-subtext0 select-all;
+  }
+
+  /* ---------- Contacts ---------- */
+
+  .icon-button {
+    @apply inline-flex h-10 w-10 items-center justify-center border border-hairline-strong bg-canvas text-mute transition-colors duration-150 hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+  }
+
+  /* ---------- Statusline ---------- */
+
+  .tui-statusline {
+    @apply flex items-stretch justify-between border-t border-surface1 bg-mantle text-tui-xs text-overlay1;
+  }
+
+  .tui-seg {
+    @apply inline-flex min-w-0 items-center px-2.5 py-1.5 whitespace-nowrap;
+  }
+
+  .tui-seg-mode {
+    @apply bg-accent px-3 font-bold uppercase tracking-[0.14em] text-crust;
+  }
+
+  .tui-seg-accent {
+    @apply text-green;
+  }
+
+  /* ---------- Decoration ---------- */
+
   .grid-lines {
     position: fixed;
     inset: 0;
     pointer-events: none;
+    z-index: 0;
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 44px 44px;
+      linear-gradient(to right, rgba(205, 214, 244, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(205, 214, 244, 0.035) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
 
+  .vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(
+      115% 90% at 50% 40%,
+      transparent 30%,
+      rgba(17, 17, 27, 0.55) 75%,
+      rgba(17, 17, 27, 0.85) 100%
+    );
+  }
+
+  /* ---------- Boot fade ---------- */
+
+  .boot {
+    animation: boot 420ms ease-out both;
+  }
+
+  .boot-1 {
+    animation-delay: 60ms;
+  }
+  .boot-2 {
+    animation-delay: 140ms;
+  }
+  .boot-3 {
+    animation-delay: 220ms;
+  }
+  .boot-4 {
+    animation-delay: 300ms;
+  }
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes boot {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .cursor,
+  .boot {
+    animation: none;
+  }
 }

@@ -58,8 +58,9 @@ const ogImage = new URL(image, SITE.url).toString();
       rel="stylesheet"
     />
   </head>
-  <body class="min-h-dvh bg-canvas font-mono text-body antialiased">
+  <body class="min-h-dvh bg-crust font-mono text-body antialiased">
     <div class="grid-lines" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
     <slot />
   </body>
 </html>
