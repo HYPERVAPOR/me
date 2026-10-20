@@ -5,7 +5,7 @@ export const SITE = {
   // Canonical domain, bound to this site on Vercel.
   url: 'https://hypervapor.org',
   locale: 'en_US',
-  themeColor: '#0b0b0c',
+  themeColor: '#11111b',
   image: '/og.png',
   author: 'Zhening Liu',
   person: {

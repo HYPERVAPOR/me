@@ -1,8 +1,9 @@
 # Personal Homepage
 
-一个极简的静态个人主页：深色终端风，超大字号 Bio + 一排 icon 联系方式。技术栈为
+一个极简的静态个人主页，整体就是一个终端窗口：标签栏 + 双栏 pane + 底部 statusline，
+超大字号 Bio、项目列表与一个精选仓库。配色为 Catppuccin Mocha。技术栈为
 Astro + Tailwind CSS + pnpm，视觉系统遵循项目根目录的 [`DESIGN.md`](./DESIGN.md)
-（Dark Minimal Terminal 设计语言）。
+（Mocha TUI 设计语言）。
 
 ## 技术栈
 
@@ -15,12 +16,12 @@ Astro + Tailwind CSS + pnpm，视觉系统遵循项目根目录的 [`DESIGN.md`]
 
 ```text
 /
-├── DESIGN.md                 # 设计系统源文件（深色极简终端风）
-├── public/
+├── DESIGN.md                 # 设计系统源文件（Mocha TUI）
+├── public/                   # favicon / og.svg（og.png 由 og.svg 渲染）
 ├── src/
 │   ├── layouts/              # BaseLayout
 │   ├── pages/                # 页面路由
-│   └── styles/global.css     # DESIGN.md → Tailwind 主题映射
+│   └── styles/global.css     # DESIGN.md → Tailwind 主题映射 + TUI 组件类
 └── package.json
 ```
 
