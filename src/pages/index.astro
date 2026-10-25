@@ -26,30 +26,25 @@ const contacts = [
 
 const projects = [
   {
-    name: 'riffpad.ai',
+    name: 'riffpad',
     href: 'https://riffpad.ai',
-    status: 'live',
-    badge: 'badge-live',
-    meta: 'web · audio',
+    links: 8,
+    date: 'Oct 12 09:41',
   },
   {
     name: 'herdr-pair-coding',
     href: 'https://github.com/HYPERVAPOR/herdr-pair-coding',
-    status: 'new',
-    badge: 'badge-new',
-    meta: 'python · agents',
+    links: 14,
+    date: 'Oct 21 14:27',
+  },
+  {
+    name: 'pi-utils',
+    href: 'https://github.com/HYPERVAPOR/pi-utils',
+    links: 6,
+    date: 'Sep 30 22:18',
   },
 ];
 
-const featured = {
-  name: 'herdr-pair-coding',
-  href: 'https://github.com/HYPERVAPOR/herdr-pair-coding',
-  tagline: 'Worker–reviewer pair coding on herdr.',
-  description:
-    'One agent writes. Another reviews. A watchdog keeps the pair moving — so the work never stalls on a silent pane.',
-  topics: ['agent-orchestration', 'multi-agent', 'herdr', 'terminal', 'pi'],
-  clone: 'git clone git@github.com:HYPERVAPOR/herdr-pair-coding.git',
-};
 ---
 
 <BaseLayout>
@@ -58,179 +53,179 @@ const featured = {
       <!-- window chrome -->
       <header class="tui-chrome">
         <nav class="tui-tabs" aria-label="Panes">
-          <a class="tui-tab" href="#whoami" aria-current="true">01:whoami</a>
-          <a class="tui-tab" href="#projects">02:projects</a>
+          <a class="tui-tab" href="#whoami" data-tab="whoami" aria-current="true" aria-label="whoami">1</a>
+          <a class="tui-tab" href="#projects" data-tab="projects" aria-label="projects">2</a>
         </nav>
-        <span class="tui-chrome-meta" aria-hidden="true">hypervapor.org — zsh — 96×24</span>
       </header>
 
       <div class="tui-grid">
         <!-- ── pane 01 ───────────────────────────────── -->
-        <section id="whoami" class="tui-pane flex flex-col">
-          <p class="prompt boot">
-            <span><span class="text-green">hypervapor</span><span class="text-overlay0">@</span><span class="text-green">localhost</span></span>
-            <span class="text-blue">~</span>
-            <span class="text-accent">%</span>
-            <span class="prompt-cmd">whoami</span>
-          </p>
-
-          <h1
-            class="boot boot-1 mt-6 text-[clamp(2rem,6vw,3.5rem)] font-bold leading-[1.06] tracking-tight text-balance text-ink"
-          >
-            Now building <a href="https://riffpad.ai" class="link-accent">Riffpad.ai</a><span
-              class="cursor"
-              aria-hidden="true"></span>
-          </h1>
-
-          <p class="boot boot-2 mt-5 max-w-[26rem] text-caption-sm leading-relaxed text-subtext0">
-            <span class="text-ash">//</span> quiet tooling for loud problems. Built in the terminal, then
-            left to run without me.
-          </p>
-
-          <div class="boot boot-3 mt-auto pt-8">
-            <p class="prompt">
-              <span class="text-accent">%</span>
-              <span class="prompt-cmd">./contact --all</span>
-            </p>
-            <nav
-              class="mt-3 flex flex-nowrap items-center gap-x-2.5"
-              aria-label="Contact"
-            >
-              {
-                contacts.map(({ label, href, icon }) => (
-                  <a class="icon-button" href={href} aria-label={label}>
+        <section id="whoami" data-pane class="tui-pane flex flex-col">
+          <article class="md mb-8">
+            <div class="md-line">
+              <span class="md-ln" aria-hidden="true">1</span>
+              <h1 class="md-h1">
+                <span class="md-icon" aria-hidden="true">①</span>
+                <span class="min-w-0">
+                  Now building
+                  <a class="md-link" href="https://riffpad.ai"><span class="md-br">[</span><span class="md-link-text">Riffpad.ai</span><span class="md-br">]</span><span class="md-url">(https://riffpad.ai)</span></a>
+                </span>
+              </h1>
+            </div>
+            <div class="md-line">
+              <span class="md-ln" aria-hidden="true">2</span>
+            </div>
+            <div class="md-line">
+              <span class="md-ln" aria-hidden="true">3</span>
+              <p class="md-p">quiet tooling for loud problems.</p>
+            </div>
+            <div class="md-line">
+              <span class="md-ln" aria-hidden="true">4</span>
+            </div>
+            <div class="md-line">
+              <span class="md-ln" aria-hidden="true">5</span>
+              <h2 class="md-h2"><span class="md-icon" aria-hidden="true">②</span>contact</h2>
+            </div>
+            <div class="md-line">
+              <span class="md-ln" aria-hidden="true">6</span>
+            </div>
+            {
+              contacts.map(({ label, href, icon }, index) => (
+                <div class="md-line">
+                  <span class="md-ln" aria-hidden="true">
+                    {index + 7}
+                  </span>
+                  <p class="md-li">
+                    <span class="md-bullet" aria-hidden="true">●</span>
                     {
                       icon === 'github' ? (
-                        <svg
-                          class="h-4 w-4"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
+                        <svg class="md-li-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                           <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
                         </svg>
                       ) : icon === 'linkedin' ? (
-                        <svg
-                          class="h-4 w-4"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
+                        <svg class="md-li-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                           <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z" />
                         </svg>
                       ) : icon === 'mail' ? (
-                        <svg
-                          class="h-4 w-4"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          aria-hidden="true"
-                        >
+                        <svg class="md-li-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                           <rect x="2" y="4" width="20" height="16" rx="1" />
                           <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                         </svg>
                       ) : (
-                        <svg
-                          class="h-4 w-4"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
+                        <svg class="md-li-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                           <path d="M20.317 4.3698a19.7913 19.7913 0 0 0-4.8851-1.5152.0741.0741 0 0 0-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 0 0-.0785-.037 19.7363 19.7363 0 0 0-4.8852 1.515.0699.0699 0 0 0-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 0 0 .0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 0 0 .0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 0 0-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 0 1-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 0 1 .0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 0 1 .0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 0 1-.0066.1276 12.2986 12.2986 0 0 1-1.873.8914.0766.0766 0 0 0-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 0 0 .0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 0 0 .0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 0 0-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" />
                         </svg>
                       )
                     }
-                  </a>
-                ))
-              }
-            </nav>
-          </div>
+                    <a class="md-link" href={href}><span class="md-br">[</span><span class="md-link-text">{label.toLowerCase()}</span><span class="md-br">]</span><span class="md-url">({href})</span></a>
+                  </p>
+                </div>
+              ))
+            }
+          </article>
+
+          <!-- nvim statusline: only the buffer pane owns one -->
+          <footer class="tui-statusline mt-auto -mx-5 -mb-6 sm:-mx-7 sm:-mb-8" aria-hidden="true">
+            <div class="flex min-w-0 items-stretch">
+              <span class="tui-seg tui-seg-mode">normal</span>
+              <span class="tui-seg min-w-0">
+                <span class="truncate text-subtext0">~/hypervapor.org/index.astro</span>
+              </span>
+              <span class="tui-seg tui-seg-accent">⎇ main</span>
+            </div>
+            <div class="flex shrink-0 items-stretch">
+              <span class="tui-seg hidden gap-1.5 sm:inline-flex">
+                <svg class="h-3 w-3" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M22.27 19.385H1.73A1.73 1.73 0 010 17.655V6.345a1.73 1.73 0 011.73-1.73h20.54A1.73 1.73 0 0124 6.345v11.308a1.73 1.73 0 01-1.73 1.731zM5.769 15.923v-4.5l2.308 2.885 2.307-2.885v4.5h2.308V8.078h-2.308l-2.307 2.885-2.308-2.885H3.46v7.847zM21.232 12h-2.309V8.077h-2.307V12h-2.308l3.461 4.039z" />
+                </svg>
+                markdown
+              </span>
+              <span class="tui-seg tui-seg-block" id="scroll-state">Top</span>
+              <span class="tui-seg tui-seg-pos"><span id="position">1:1</span></span>
+              <span class="tui-seg hidden md:inline-flex" id="clock">00:00 UTC</span>
+            </div>
+          </footer>
         </section>
 
         <!-- ── pane 02 ───────────────────────────────── -->
-        <section id="projects" class="tui-pane flex flex-col">
-          <p class="prompt boot">
-            <span class="text-accent">%</span>
+        <section id="projects" data-pane data-inactive class="tui-pane flex flex-col">
+          <p class="prompt">
+            <span class="text-blue">~</span>
             <span class="prompt-cmd">ls -la ~/projects</span>
           </p>
 
-          <ul class="boot boot-1 mt-4 space-y-1">
-            {
-              projects.map(({ name, href, status, badge, meta }) => (
-                <li class="project-row">
-                  <span class="flex min-w-0 items-baseline gap-2 truncate">
-                    <a href={href} class="project-name truncate">
+          <div class="mt-4">
+            <p class="ls-total">total 128</p>
+            <ul class="ls-list" role="list">
+              <li class="ls-row">
+                <span class="ls-perm">drwxr-xr-x</span>
+                <span class="ls-num">4</span>
+                <span>hv</span>
+                <span>hv</span>
+                <span class="ls-num">4096</span>
+                <span class="ls-date">Oct 23 17:06</span>
+                <span class="ls-name text-overlay0">.</span>
+              </li>
+              <li class="ls-row">
+                <span class="ls-perm">drwxr-x---</span>
+                <span class="ls-num">53</span>
+                <span>hv</span>
+                <span>hv</span>
+                <span class="ls-num">4096</span>
+                <span class="ls-date">Oct 25 22:02</span>
+                <span class="ls-name text-overlay0">..</span>
+              </li>
+              {
+                projects.map(({ name, href, links, date }) => (
+                  <li class="ls-row">
+                    <span class="ls-perm">drwxr-xr-x</span>
+                    <span class="ls-num">{links}</span>
+                    <span>hv</span>
+                    <span>hv</span>
+                    <span class="ls-num">4096</span>
+                    <span class="ls-date">{date}</span>
+                    <a class="ls-name" href={href}>
                       {name}
                     </a>
-                    <span class="hidden text-tui-xs text-ash sm:inline">{meta}</span>
-                  </span>
-                  <span class={`badge ${badge}`}>{status}</span>
-                </li>
-              ))
-            }
-          </ul>
-
-          <div class="tui-block boot boot-2">
-            <span class="tui-block-label"> <span class="text-peach">◆</span> {featured.name} </span>
-
-            <p class="text-caption-sm text-subtext0">{featured.tagline}</p>
-            <p class="mt-2 text-tui-xs leading-relaxed text-subtext0">{featured.description}</p>
-
-            <ul class="mt-3 flex flex-wrap gap-1.5" aria-label="Topics">
-              {
-                featured.topics.map((topic) => (
-                  <li class="border border-surface1 px-1.5 py-px text-tui-xs text-overlay2">
-                    #{topic}
                   </li>
                 ))
               }
             </ul>
-
-            <p class="clone-line mt-4">
-              <span class="text-ash" aria-hidden="true">$</span>
-              <span class="min-w-0 truncate">{featured.clone}</span>
-            </p>
-
-            <div class="mt-3 flex flex-wrap items-center gap-2">
-              <a class="cta" href={featured.href} data-featured>
-                <span aria-hidden="true">⏎</span>
-                <span>open repo</span>
-              </a>
-              <a class="cta-ghost" href={featured.href} aria-label="Read the README">cat README.md</a>
-            </div>
           </div>
-
-          <p class="boot boot-3 mt-auto pt-6 text-tui-xs text-ash">
-            <span class="text-overlay1">next</span>
-            <span class="mx-2 inline-block h-3 w-24 translate-y-[0.1em] bg-surface1" aria-hidden="true"
-            ></span>
-            <span>— sealed until it works</span>
-          </p>
         </section>
       </div>
 
-      <!-- statusline -->
-      <footer class="tui-statusline" aria-hidden="true">
-        <div class="flex items-stretch">
-          <span class="tui-seg tui-seg-mode">normal</span>
-          <span class="tui-seg hidden sm:inline-flex">hypervapor@localhost</span>
-          <span class="tui-seg tui-seg-accent">⎇ main</span>
-          <span class="tui-seg hidden sm:inline-flex">utf-8</span>
-        </div>
-        <div class="flex items-stretch">
-          <span class="tui-seg hidden sm:inline-flex">ln 1, col 1</span>
-          <span class="tui-seg">⏎ featured</span>
-          <span class="tui-seg" id="clock">00:00 UTC</span>
-        </div>
-      </footer>
     </div>
   </main>
 
-  <script define:vars={{ featuredUrl: featured.href }}>
+  <script>
     const clock = document.getElementById('clock');
+    const scrollState = document.getElementById('scroll-state');
+    const position = document.getElementById('position');
+
+    // Tabs switch panes: one pane owns the full window width.
+    const panes = Array.from(document.querySelectorAll('[data-pane]'));
+    const tabs = Array.from(document.querySelectorAll('[data-tab]'));
+
+    const showPane = (id, pushHash = false) => {
+      if (!panes.some((pane) => pane.id === id)) return;
+      panes.forEach((pane) => pane.toggleAttribute('data-inactive', pane.id !== id));
+      tabs.forEach((tab) => {
+        if (tab.dataset.tab === id) tab.setAttribute('aria-current', 'true');
+        else tab.removeAttribute('aria-current');
+      });
+      if (pushHash && location.hash !== `#${id}`) history.replaceState(null, '', `#${id}`);
+      track();
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', (event) => {
+        event.preventDefault();
+        showPane(tab.dataset.tab, true);
+      });
+    });
+
+    addEventListener('hashchange', () => showPane(location.hash.slice(1)));
 
     const tick = () => {
       if (!clock) return;
@@ -241,15 +236,22 @@ const featured = {
     tick();
     setInterval(tick, 1000);
 
-    // Enter opens the featured repo, unless focus is on something interactive.
-    document.addEventListener('keydown', (event) => {
-      if (event.key !== 'Enter') return;
-      if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
-      const target = event.target;
-      if (target instanceof Element && target.closest('a, button, input, textarea, select, [contenteditable]')) {
-        return;
+    // nvim-style scroll indicator + `line:col` position
+    const track = () => {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - doc.clientHeight;
+      const ratio = max > 0 ? Math.min(1, Math.max(0, doc.scrollTop / max)) : 0;
+      const lines = Math.max(1, Math.ceil(doc.scrollHeight / 24));
+      const line = Math.round(ratio * (lines - 1)) + 1;
+      if (position) position.textContent = `${line}:1`;
+      if (scrollState) {
+        scrollState.textContent =
+          ratio <= 0.001 ? 'Top' : ratio >= 0.999 ? 'Bot' : `${Math.round(ratio * 100)}%`;
       }
-      window.location.href = featuredUrl;
-    });
+    };
+    track();
+    showPane(location.hash.slice(1) || 'whoami');
+    addEventListener('scroll', track, { passive: true });
+    addEventListener('resize', track);
   </script>
 </BaseLayout>

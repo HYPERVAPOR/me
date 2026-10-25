@@ -73,7 +73,7 @@
 
   html {
     font-family: var(--font-mono);
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
   }
 
   body {
@@ -97,8 +97,11 @@
 @layer components {
   /* ---------- Shell ---------- */
 
+  /* A window shaped like a real one: 80 columns wide, 24 rows tall (the macOS
+     Terminal.app / iTerm2 default), gutters included. */
   .tui-frame {
-    @apply relative flex w-full max-w-5xl flex-col overflow-hidden border border-surface1 bg-canvas;
+    @apply relative flex w-full flex-col overflow-hidden border border-surface1 bg-canvas;
+    width: min(100%, calc(80ch + 3.5rem));
     box-shadow:
       0 0 0 1px var(--color-crust),
       0 40px 120px -40px rgba(0, 0, 0, 0.9);
@@ -106,24 +109,20 @@
 
   /* Top chrome: tabs + window meta */
   .tui-chrome {
-    @apply flex items-center justify-between gap-4 border-b border-surface1 bg-mantle px-3 py-1.5;
+    @apply flex items-stretch justify-between gap-4 border-b border-surface1 bg-mantle;
   }
 
   .tui-tabs {
-    @apply flex items-center gap-1;
+    @apply flex items-stretch;
   }
 
+  /* Plain numbered cells, like a TUI window list: the active one is a filled block. */
   .tui-tab {
-    @apply inline-flex items-center gap-1.5 rounded-sm px-2 py-1 text-tui-xs uppercase tracking-[0.08em] text-overlay1 transition-colors duration-150 hover:bg-surface0 hover:text-ink;
+    @apply inline-flex w-20 items-center justify-center py-2 text-caption-sm text-overlay1 hover:text-ink;
   }
 
   .tui-tab[aria-current='true'] {
-    @apply bg-surface0 text-ink;
-  }
-
-  .tui-tab[aria-current='true']::before {
-    content: '';
-    @apply inline-block h-1.5 w-1.5 rounded-full bg-accent;
+    @apply bg-blue text-crust;
   }
 
   .tui-chrome-meta {
@@ -133,22 +132,89 @@
   /* ---------- Body grid ---------- */
 
   .tui-grid {
-    @apply grid grid-cols-1 lg:grid-cols-[1.05fr_1fr];
+    @apply grid;
+    min-height: 31.25rem; /* 24 rows of 13px/1.6 — the 24 in 80×24 */
   }
 
+  /* Both panes sit in the same cell: the window is always as tall as the tallest
+     pane, so switching tabs never moves the frame edges. */
   .tui-pane {
     @apply relative min-w-0 px-5 py-6 sm:px-7 sm:py-8;
+    grid-area: 1 / 1;
   }
 
-  .tui-pane + .tui-pane {
-    border-top: 1px solid var(--color-surface1);
+  .tui-pane[data-inactive] {
+    visibility: hidden;
   }
 
-  @media (min-width: 1024px) {
-    .tui-pane + .tui-pane {
-      border-top: 0;
-      border-left: 1px solid var(--color-surface1);
-    }
+  /* ---------- Rendered markdown buffer (the nvim pane) ----------
+     Recreates how a markdown file looks in Neovim with a render plugin:
+     line-number gutter, concealed markers, heading bands, ● bullets and
+     links expanded to `[text](url)`. */
+
+  .md {
+    @apply text-caption-sm leading-[1.6] text-overlay1;
+  }
+
+  /* one buffer line: gutter number + content, baseline aligned */
+  .md-line {
+    @apply flex min-h-[1.6em] items-baseline;
+  }
+
+  .md-ln {
+    @apply w-8 shrink-0 pr-3 text-right text-tui-xs tabular-nums text-surface2;
+  }
+
+  .md-h1,
+  .md-h2 {
+    @apply -mr-5 flex min-w-0 grow items-baseline gap-2 bg-surface0/55 pr-5 text-ink sm:-mr-7 sm:pr-7;
+  }
+
+  /* headings keep the buffer's single row height; only the ①/② marker and the
+     band carry the hierarchy */
+  .md-h1,
+  .md-h2 {
+    @apply font-bold;
+  }
+
+  .md-icon {
+    @apply text-peach;
+  }
+
+  .md-p {
+    @apply min-w-0 text-subtext0;
+  }
+
+  .md-li {
+    @apply flex min-w-0 items-baseline gap-x-2;
+  }
+
+  .md-bullet {
+    @apply shrink-0 text-teal;
+  }
+
+  .md-li-icon {
+    @apply relative top-[1px] h-3 w-3 shrink-0 self-center text-overlay0;
+  }
+
+  .md-link {
+    @apply inline-flex min-w-0 items-baseline;
+  }
+
+  .md-br {
+    @apply text-overlay0;
+  }
+
+  .md-link-text {
+    @apply text-blue;
+  }
+
+  .md-url {
+    @apply hidden truncate text-teal/70 sm:inline;
+  }
+
+  .md-link:hover .md-link-text {
+    color: var(--color-accent-hover);
   }
 
   /* ---------- Terminal text ---------- */
@@ -161,27 +227,51 @@
     @apply text-ink;
   }
 
-  .cursor {
-    @apply ml-2 inline-block h-[0.85em] w-[0.5em] translate-y-[0.06em] bg-accent;
-    animation: blink 1.1s steps(1, end) infinite;
-  }
-
   .link-accent {
-    @apply text-accent underline decoration-accent/40 underline-offset-[6px] transition-colors duration-150 hover:text-accent-hover hover:decoration-accent-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent;
+    @apply text-accent underline decoration-accent/40 underline-offset-[6px] hover:text-accent-hover hover:decoration-accent-hover focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent;
   }
 
   .meta-note {
     @apply text-tui-xs text-ash;
   }
 
-  /* ---------- Project list ---------- */
+  /* ---------- `ls -la` listing ---------- */
 
-  .project-row {
-    @apply grid min-w-0 grid-cols-[1fr_auto] items-baseline gap-x-3 gap-y-1 border-l border-transparent py-1 pl-2 text-caption-sm transition-colors duration-150 hover:border-accent/60 hover:bg-surface0/40;
+  .ls-total {
+    @apply text-caption-sm leading-[1.6] tracking-normal text-overlay0;
   }
 
-  .project-name {
-    @apply text-ink transition-colors duration-150 hover:text-accent-hover;
+  .ls-list {
+    @apply text-caption-sm leading-[1.6] tracking-normal text-overlay1;
+  }
+
+  .ls-row {
+    @apply grid items-center gap-x-[1ch] overflow-hidden pr-1 whitespace-nowrap;
+    grid-template-columns: 10ch 2ch 2ch 2ch 5ch 12ch minmax(0, 1fr);
+  }
+
+  .ls-row:hover {
+    @apply bg-surface0/50;
+  }
+
+  .ls-perm {
+    @apply whitespace-nowrap text-overlay1;
+  }
+
+  .ls-num {
+    @apply text-right tabular-nums text-overlay0;
+  }
+
+  .ls-date {
+    @apply whitespace-nowrap text-overlay0;
+  }
+
+  .ls-name {
+    @apply truncate font-bold text-blue;
+  }
+
+  .ls-row:hover .ls-name {
+    @apply text-accent-hover;
   }
 
   .badge {
@@ -200,34 +290,10 @@
     @apply border-surface1 text-ash;
   }
 
-  /* ---------- Bordered block with an overlapping label ---------- */
-
-  .tui-block {
-    @apply relative mt-6 border border-surface1 px-4 pt-5 pb-4;
-  }
-
-  .tui-block-label {
-    @apply absolute -top-[0.85em] left-3 bg-canvas px-2 text-tui-xs uppercase tracking-[0.1em] text-overlay1;
-  }
-
-  /* ---------- CTA ---------- */
-
-  .cta {
-    @apply inline-flex items-center gap-2 bg-accent px-3 py-2 text-tui-xs font-bold uppercase tracking-[0.12em] text-crust transition-colors duration-150 hover:bg-green hover:text-crust focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
-  }
-
-  .cta-ghost {
-    @apply inline-flex items-center gap-2 border border-surface1 px-3 py-2 text-tui-xs uppercase tracking-[0.12em] text-mute transition-colors duration-150 hover:border-accent hover:text-accent;
-  }
-
-  .clone-line {
-    @apply flex items-center gap-2 border border-surface1 bg-mantle px-2 py-1.5 text-tui-xs text-subtext0 select-all;
-  }
-
   /* ---------- Contacts ---------- */
 
   .icon-button {
-    @apply inline-flex h-10 w-10 items-center justify-center border border-hairline-strong bg-canvas text-mute transition-colors duration-150 hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+    @apply inline-flex h-10 w-10 items-center justify-center border border-hairline-strong bg-canvas text-mute hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
   }
 
   /* ---------- Statusline ---------- */
@@ -246,6 +312,14 @@
 
   .tui-seg-accent {
     @apply text-green;
+  }
+
+  .tui-seg-block {
+    @apply bg-surface0 px-2 text-subtext0;
+  }
+
+  .tui-seg-pos {
+    @apply bg-accent px-3 font-bold text-crust;
   }
 
   /* ---------- Decoration ---------- */
@@ -274,55 +348,4 @@
     );
   }
 
-  /* ---------- Boot fade ---------- */
-
-  .boot {
-    animation: boot 420ms ease-out both;
-  }
-
-  .boot-1 {
-    animation-delay: 60ms;
-  }
-  .boot-2 {
-    animation-delay: 140ms;
-  }
-  .boot-3 {
-    animation-delay: 220ms;
-  }
-  .boot-4 {
-    animation-delay: 300ms;
-  }
-}
-
-@keyframes blink {
-  0%,
-  49% {
-    opacity: 1;
-  }
-  50%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes boot {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .cursor,
-  .boot {
-    animation: none;
-  }
 }
