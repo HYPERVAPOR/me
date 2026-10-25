@@ -1,6 +1,6 @@
 export const SITE = {
   name: 'HYPERVAPOR',
-  title: "HYPERVAPOR's Page",
+  title: 'hv',
   description: 'Now building Riffpad.ai.',
   // Canonical domain, bound to this site on Vercel.
   url: 'https://hypervapor.org',
